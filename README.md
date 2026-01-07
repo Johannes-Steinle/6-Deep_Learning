@@ -7,7 +7,7 @@ Das Ziel dieses Projekts ist es, vorherzusagen, ob eine Banknote echt oder eine 
 
 ## Inhalt
 * `Deep_Learning_Solution.ipynb`: Das Haupt-Notebook mit der Implementierung des neuronalen Netzes.
-* `Bank_Note_Data.csv`: Der Datensatz, der für Training und Test verwendet wurde.
+* `bank_note_data.csv`: Der Datensatz, der für Training und Test verwendet wurde.
 
 ## Prüfungsaufgabe 2: Automatisierung und Testen
 
