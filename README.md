@@ -11,21 +11,20 @@ Das Ziel dieses Projekts ist es, vorherzusagen, ob eine Banknote echt oder eine 
 
 ## Prüfungsaufgabe 2: Automatisierung und Testen
 
-Dieses Projekt wurde gemäß den Anforderungen für Aufgabe 2 refaktoriert und mit automatisierten Tests sowie Logging ausgestattet.
-
-### Struktur
 - `model_logic.py`: Enthält die Kernlogik (StandardScaler und MLPClassifier) sowie Logging-Funktionalität.
 - `test_model.py`: Führt Unit-Tests zur Validierung der Modellgüte (Accuracy) und der Trainingslaufzeit durch.
 - `training.log`: Wird automatisch erstellt und protokolliert Trainingsereignisse.
 
 ### Testergebnisse
-Die Tests wurden erfolgreich ausgeführt:
+Die Tests wurden erfolgreich ausgeführt und validieren sowohl die Genauigkeit als auch die Performance:
 ```text
-[Test DL] Gemessene Accuracy: 1.0
+[Test predict()] Gemessene Accuracy: 1.0000
 .
-[Test Fit] Gemessene Dauer: 0.2203s (Limit: 3.0000s)
+[Test fit()] Gemessene Dauer: 0.1695s (Limit: 0.7500s)
 .
-Ran 2 tests in 0.476s
+----------------------------------------------------------------------
+Ran 2 tests in 0.361s
+
 OK
 ```
 

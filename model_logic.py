@@ -7,6 +7,7 @@ from sklearn.metrics import classification_report, accuracy_score
 import logging
 import time
 import os
+from functools import wraps
 
 # Logging Konfiguration
 logging.basicConfig(
@@ -16,45 +17,55 @@ logging.basicConfig(
     filemode='a'
 )
 
+def my_logger(orig_func):
+    """Loggt den Funktionsnamen und die übergebenen Argumente."""
+    @wraps(orig_func)
+    def wrapper(*args, **kwargs):
+        logging.info(f'Ran with args: {args}, and kwargs: {kwargs}')
+        return orig_func(*args, **kwargs)
+    return wrapper
+
+def my_timer(orig_func):
+    """Loggt die Ausführungszeit der Funktion."""
+    @wraps(orig_func)
+    def wrapper(*args, **kwargs):
+        t1 = time.time()
+        result = orig_func(*args, **kwargs)
+        t2 = time.time() - t1
+        logging.info(f'{orig_func.__name__} ran in: {t2:.4f} sec')
+        return result
+    return wrapper
+
+@my_logger
+@my_timer
 def load_data(filepath):
     """Lädt die Bank Note Daten."""
-    logger = logging.getLogger()
     try:
         data = pd.read_csv(filepath)
-        logger.info(f"Daten erfolgreich von {filepath} geladen.")
-        
         X = data.drop('Class', axis=1)
         y = data['Class']
-        
         return X, y
     except Exception as e:
-        logger.error(f"Fehler beim Laden der Daten: {e}")
+        logging.error(f"Fehler beim Laden der Daten: {e}")
         raise
 
+@my_logger
+@my_timer
 def fit_model(X_train, y_train):
     """Skaliert Daten und trainiert ein Neuronales Netz (MLP)."""
-    logger = logging.getLogger()
-    start_time = time.time()
-    
-    logger.info("Starte Daten-Skalierung...")
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     
-    logger.info("Starte MLPClassifier Training...")
     # Wir nutzen MLPClassifier als moderne/kompatible Alternative zum alten DNNClassifier
     model = MLPClassifier(hidden_layer_sizes=(10, 20, 10), max_iter=500, random_state=101)
     model.fit(X_train_scaled, y_train)
     
-    end_time = time.time()
-    duration = end_time - start_time
-    logger.info(f"Training beendet in {duration:.4f} Sekunden.")
-    
-    return model, scaler, duration
+    return model, scaler
 
+@my_logger
+@my_timer
 def predict_model(model, scaler, X_test):
     """Führt Vorhersagen mit dem skalierten Modell durch."""
-    logger = logging.getLogger()
-    logger.info("Erstelle Vorhersagen...")
     X_test_scaled = scaler.transform(X_test)
     predictions = model.predict(X_test_scaled)
     return predictions
