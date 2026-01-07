@@ -60,7 +60,7 @@ def predict_model(model, scaler, X_test):
     return predictions
 
 if __name__ == "__main__":
-    X, y = load_data('Bank_Note_Data.csv')
+    X, y = load_data('bank_note_data.csv')
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
     
     model, scaler, duration = fit_model(X_train, y_train)

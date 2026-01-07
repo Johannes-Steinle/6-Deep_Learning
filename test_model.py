@@ -9,7 +9,7 @@ class TestDeepLearningModel(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Wird einmal vor allen Tests ausgeführt. Lädt Daten."""
-        cls.X, cls.y = load_data('Bank_Note_Data.csv')
+        cls.X, cls.y = load_data('bank_note_data.csv')
         cls.X_train, cls.X_test, cls.y_train, cls.y_test = train_test_split(
             cls.X, cls.y, test_size=0.3, random_state=101
         )
